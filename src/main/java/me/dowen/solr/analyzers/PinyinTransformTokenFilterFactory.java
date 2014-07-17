@@ -12,7 +12,7 @@ import org.apache.lucene.analysis.util.TokenFilterFactory;
 public class PinyinTransformTokenFilterFactory extends TokenFilterFactory {
 
 	private boolean isOutChinese = true; // 是否输出原中文开关
-	private int minTermLenght = 2; // 中文词组长度过滤，默认超过2位长度的中文才转换拼音
+	private int minTermLength = 2; // 中文词组长度过滤，默认超过2位长度的中文才转换拼音
 	private boolean firstChar = false; // 拼音缩写开关，输出编写时不输出全拼音
 
 	/**
@@ -23,13 +23,13 @@ public class PinyinTransformTokenFilterFactory extends TokenFilterFactory {
 		super(args);
 		this.isOutChinese = getBoolean(args, "isOutChinese", true);
 		this.firstChar = getBoolean(args, "firstChar", false);
-		this.minTermLenght = getInt(args, "minTermLenght", 2);
+		this.minTermLength = getInt(args, "minTermLength", 2);
 		if (!args.isEmpty())
 			throw new IllegalArgumentException("Unknown parameters: " + args);
 	}
 
 	public TokenFilter create(TokenStream input) {
 		return new PinyinTransformTokenFilter(input, this.firstChar,
-				this.minTermLenght, this.isOutChinese);
+				this.minTermLength, this.isOutChinese);
 	}
 }
