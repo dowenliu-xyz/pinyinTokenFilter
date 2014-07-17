@@ -39,9 +39,11 @@ Usage/用法
 ##isOutChinese
 If original chinese term would keep in output or not.Optional values:*true*(default)/*false*.  
 是否保留原输入中文词元。可选值：*true*(默认)/*false*
+
 ##firstChar
 If output pinyin would be in full format or in short format.The short format is formed by every first character of pinyin of every chinese character.Optional values:*true*(default)/*false*.  
 输出完整拼音格式还是输出简拼。简拼输出是由原中文词元的各单字的拼音结果的首字母组成的。可选值：*true*(默认)/*false*
+
 ##minTermLength
 Only output pinyin term for chinese term which character lenght is greater than or equals *minTermLenght*.The default value is 2.
 仅输出字数大于或等于*minTermLenght*的中文词元的拼音结果。默认值为2。
