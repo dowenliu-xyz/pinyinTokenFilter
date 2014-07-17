@@ -4,6 +4,9 @@ pinyinTokenFilter
 A TokenFilter plugin for Apache Solr. It add pinyin terms for chinese terms.  
 Apache Solr搜索引擎插件，用于将为中文词元增加拼音注解词元。
 
+Tested with Solr Version 4.7.0.  
+在Solr 4.7.0版本中测试通过。
+
 Usage/用法
 -----------------
 
