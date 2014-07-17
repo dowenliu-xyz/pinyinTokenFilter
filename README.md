@@ -16,9 +16,9 @@ Usage/用法
 > 			<analyzer type="index">
 > 				<tokenizer class="solr.StandardTokenizerFactory" />
 > 				<filter class="me.dowen.solr.analyzers.PinyinTransformTokenFilterFactory"
-> 					isOutChinese="true" firstChar="true" minTermLength="2"/>
+> 					isOutChinese="true" firstChar="true" minTermLength="1"/>
 > 				<filter class="me.dowen.solr.analyzers.PinyinTransformTokenFilterFactory"
-> 					isOutChinese="true" firstChar="false" minTermLength="2"/>
+> 					isOutChinese="true" firstChar="false" minTermLength="1"/>
 > 				<filter class="solr.StopFilterFactory" ignoreCase="true"
 > 					words="stopwords.txt" />
 > 				<filter class="solr.LowerCaseFilterFactory" />
