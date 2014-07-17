@@ -47,3 +47,12 @@ If output pinyin would be in full format or in short format.The short format is 
 ##minTermLength
 Only output pinyin term for chinese term which character lenght is greater than or equals *minTermLenght*.The default value is 2.
 仅输出字数大于或等于*minTermLenght*的中文词元的拼音结果。默认值为2。
+
+Dependency&Build&Deploy/关于依赖＆构建＆部署
+-----------------
+
+This project depends on project [pinyin4j](http://pinyin4j.sourceforge.net/),and it seems not a maven project because there is no maven artifact info given on it's website.*Yuo'd better hold the artifact of pinyin4j in your local or proxy maven repository such as Nexus*.
+这个工程依赖[pinyin4j](http://pinyin4j.sourceforge.net/)项目。而后者似乎不是一个maven项目，因为我没有在它的网站上找到任何maven artifact的说明信息。*我觉得你最好把pinyin4j项目放到你本地或类似Nexus一类的代理maven资源库中*
+
+#*Don't forget to copy pinyin4j jar package to lib path of solr when deploying!*
+#*部署的时候别忘了把pinyin4j的jar包也拷贝到solr项目的lib路径下！*
