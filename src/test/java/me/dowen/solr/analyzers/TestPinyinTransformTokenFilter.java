@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+@SuppressWarnings("unused")
 @RunWith(com.carrotsearch.randomizedtesting.RandomizedRunner.class)
 public class TestPinyinTransformTokenFilter {
 
