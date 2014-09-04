@@ -17,6 +17,9 @@ import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombi
 import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
+import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
+import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 
 /**
  * 拼音转换分词过滤器
@@ -34,6 +37,8 @@ public class PinyinTransformTokenFilter extends TokenFilter {
 	private int curTermLength; // 底层词元输入长度
 
 	private final CharTermAttribute termAtt = (CharTermAttribute) addAttribute(CharTermAttribute.class); // 词元记录
+	private final PositionIncrementAttribute posIncrAtt = addAttribute(PositionIncrementAttribute.class); // 位置增量属性
+	private final TypeAttribute typeAtt = addAttribute(TypeAttribute.class); // 类型属性
 	private boolean hasCurOut = false; // 当前输入是否已输出
 	private Collection<String> terms = null; // 拼音结果集
 	private Iterator<String> termIte = null; // 拼音结果集迭代器
@@ -93,6 +98,7 @@ public class PinyinTransformTokenFilter extends TokenFilter {
 		this.outputFormat.setCaseType(HanyuPinyinCaseType.LOWERCASE);
 		this.outputFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
 		this.firstChar = firstChar;
+		addAttribute(OffsetAttribute.class); // 偏移量属性
 	}
 
 	/**
@@ -142,6 +148,7 @@ public class PinyinTransformTokenFilter extends TokenFilter {
 				// 写入原输入词元
 				this.termAtt.copyBuffer(this.curTermBuffer, 0,
 						this.curTermLength);
+				this.posIncrAtt.setPositionIncrement(1);
 				return true; // 继续
 			}
 			String chinese = this.termAtt.toString();
@@ -164,6 +171,8 @@ public class PinyinTransformTokenFilter extends TokenFilter {
 				while (this.termIte.hasNext()) { // 有拼音结果集且未处理完成
 					String pinyin = this.termIte.next();
 					this.termAtt.copyBuffer(pinyin.toCharArray(), 0, pinyin.length());
+					this.posIncrAtt.setPositionIncrement(0);
+					this.typeAtt.setType(this.firstChar ? "short_pinyin" : "pinyin");
 					return true;
 				}
 			}

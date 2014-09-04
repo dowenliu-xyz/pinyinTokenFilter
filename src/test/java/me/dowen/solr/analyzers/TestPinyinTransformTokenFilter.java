@@ -7,6 +7,9 @@ import java.io.StringReader;
 
 import org.apache.lucene.analysis.MockTokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
+import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
+import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,9 +29,15 @@ public class TestPinyinTransformTokenFilter {
 	@Test
 	public void test() throws IOException {
 		this.filter.reset();
+		int position = 0;
 		while (this.filter.incrementToken()) {
-			String token = this.filter.getAttribute(CharTermAttribute.class).toString();
-			System.out.println(token);
+			CharTermAttribute termAtt = this.filter.getAttribute(CharTermAttribute.class);
+			String token = termAtt.toString();
+			int increment = this.filter.getAttribute(PositionIncrementAttribute.class).getPositionIncrement();
+			position += increment;
+			OffsetAttribute offset = this.filter.getAttribute(OffsetAttribute.class);
+			TypeAttribute type = this.filter.getAttribute(TypeAttribute.class);
+			System.out.println(position + "[" + offset.startOffset() + "," + offset.endOffset() + "} (" + type.type() + ") " + token);
 		}
 	}
 
