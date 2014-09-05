@@ -148,7 +148,7 @@ public class PinyinTransformTokenFilter extends TokenFilter {
 				// 写入原输入词元
 				this.termAtt.copyBuffer(this.curTermBuffer, 0,
 						this.curTermLength);
-				this.posIncrAtt.setPositionIncrement(1);
+				this.posIncrAtt.setPositionIncrement(this.posIncrAtt.getPositionIncrement());
 				return true; // 继续
 			}
 			String chinese = this.termAtt.toString();
