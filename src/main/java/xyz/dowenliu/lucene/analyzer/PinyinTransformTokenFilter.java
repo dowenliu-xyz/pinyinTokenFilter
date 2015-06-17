@@ -35,8 +35,9 @@ public class PinyinTransformTokenFilter extends TokenFilter {
     private final PositionIncrementAttribute posIncrAtt = addAttribute(PositionIncrementAttribute.class); // 位置增量属性
     private final TypeAttribute typeAtt = addAttribute(TypeAttribute.class); // 类型属性
     private boolean hasCurOut = false; // 当前输入是否已输出
-    private Collection<String> terms = null; // 拼音结果集
     private Iterator<String> termIte = null; // 拼音结果集迭代器
+    private boolean termIteRead = false; // 拼音结果集迭代器赋值后是否被读取标志
+    private int inputTermPosInc = 1; // 输入Term的位置增量值
 
     /**
      * 构造器。默认长度超过2的中文词元进行转换，转换为全拼音且保留原中文词元
@@ -143,6 +144,7 @@ public class PinyinTransformTokenFilter extends TokenFilter {
                 // 缓存词元输入
                 this.curTermBuffer = this.termAtt.buffer().clone();
                 this.curTermLength = this.termAtt.length();
+                this.inputTermPosInc = this.posIncrAtt.getPositionIncrement();
             }
             // 处理原输入词元
             if ((this.isOutChinese) && (!this.hasCurOut) && (this.termIte == null)) {
@@ -151,7 +153,7 @@ public class PinyinTransformTokenFilter extends TokenFilter {
                 // 写入原输入词元
                 this.termAtt.copyBuffer(this.curTermBuffer, 0,
                         this.curTermLength);
-                this.posIncrAtt.setPositionIncrement(this.posIncrAtt.getPositionIncrement());
+                this.posIncrAtt.setPositionIncrement(this.inputTermPosInc);
                 return true; // 继续
             }
             String chinese = this.termAtt.toString();
@@ -160,10 +162,11 @@ public class PinyinTransformTokenFilter extends TokenFilter {
                 //有中文且符合长度限制
                 try {
                     // 输出拼音（缩写或全拼）
-                    this.terms = this.firstChar ? getPyShort(chinese)
+                    Collection<String> terms = this.firstChar ? getPyShort(chinese)
                             : GetPyString(chinese);
-                    if (this.terms != null) {
-                        this.termIte = this.terms.iterator();
+                    if (terms != null) {
+                        this.termIte = terms.iterator();
+                        this.termIteRead = false;
                     }
                 } catch (BadHanyuPinyinOutputFormatCombination badHanyuPinyinOutputFormatCombination) {
                     badHanyuPinyinOutputFormatCombination.printStackTrace();
@@ -174,8 +177,13 @@ public class PinyinTransformTokenFilter extends TokenFilter {
                 if (this.termIte.hasNext()) { // 有拼音结果集且未处理完成
                     String pinyin = this.termIte.next();
                     this.termAtt.copyBuffer(pinyin.toCharArray(), 0, pinyin.length());
-                    this.posIncrAtt.setPositionIncrement(0);
+                    if (this.isOutChinese) {
+                        this.posIncrAtt.setPositionIncrement(0);
+                    } else {
+                        this.posIncrAtt.setPositionIncrement(this.termIteRead ? 0 : this.inputTermPosInc);
+                    }
                     this.typeAtt.setType(this.firstChar ? "short_pinyin" : "pinyin");
+                    this.termIteRead = true;
                     return true;
                 }
             }
