@@ -1,4 +1,4 @@
-package xyz.dowenliu.lucene.analyzer;
+package xyz.dowenwork.lucene.analyzer;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;

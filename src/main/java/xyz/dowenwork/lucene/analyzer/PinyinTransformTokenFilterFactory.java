@@ -1,4 +1,4 @@
-package xyz.dowenliu.lucene.analyzer;
+package xyz.dowenwork.lucene.analyzer;
 
 import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;

@@ -15,9 +15,9 @@ Usage/用法
     <fieldType name="text_general_rev" class="solr.TextField">
         <analyzer type="index">
             <tokenizer class="solr.StandardTokenizerFactory" />
-            <filter class="xyz.dowenliu.lucene.analyzer.PinyinTransformTokenFilterFactory"
+            <filter class="xyz.dowenwork.lucene.analyzer.PinyinTransformTokenFilterFactory"
                 isOutChinese="true" firstChar="true" minTermLength="1"/>
-            <filter class="xyz.dowenliu.lucene.analyzer.PinyinTransformTokenFilterFactory"
+            <filter class="xyz.dowenwork.lucene.analyzer.PinyinTransformTokenFilterFactory"
                 isOutChinese="true" firstChar="false" minTermLength="1"/>
             <filter class="solr.StopFilterFactory" ignoreCase="true"
                 words="stopwords.txt" />
