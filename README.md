@@ -1,6 +1,8 @@
 pinyinTokenFilter
 =================
 
+** 已废弃，由[lucene-token-filter-pinyin](https://github.com/dowenliu-xyz/lucene-token-filter-pinyin)取代 **
+
 A TokenFilter plugin for Apache Solr. It add pinyin terms for chinese terms.  
 Apache Solr搜索引擎插件，用于将为中文词元增加拼音注解词元。
 
